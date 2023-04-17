@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import axios from 'axios';
+import Axios from "axios";
 
 function PokemonSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -8,17 +8,15 @@ function PokemonSearch() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // replace with axios code when connect backend
-    setSearchResults("test");
-    /*
     try {
-      const response = await axios.get(`http://localhost:3001/api/pokemon/search?pkmType=${searchTerm}`);
+      const response = await Axios.get(
+        `http://localhost:3001/api/pokemon/search?pkmType=${searchTerm}`
+      );
       setSearchResults(response.data);
       console.log(searchResults);
     } catch (error) {
       console.error(error);
     }
-    */
   };
 
   return (
@@ -38,9 +36,9 @@ function PokemonSearch() {
       <button type="submit">Search</button>
       <div className="search-results">
         {searchResults.map((pokemon) => (
-          <div key={pokemon.pkmName}>
-            <h3>{pokemon.pkmName}</h3>
-            <p>Type: {pokemon.pkmType}</p>
+          <div key={pokemon.name}>
+            <h3>{pokemon.name}</h3>
+            <p>Type: {pokemon.type}</p>
           </div>
         ))}
       </div>
