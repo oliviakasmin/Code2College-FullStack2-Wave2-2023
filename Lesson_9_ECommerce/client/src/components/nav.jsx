@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import acct from "../images/acct.png";
 import logo from "../images/logo.png";
 import cartlogo from "../images/cartlogo.png";
 import { Link } from "react-router-dom";
+import Axios from "axios";
+import {  useNavigate } from "react-router-dom";
 
 const NavBar = (props) => {
+  const [searchTerm, setSearchTerm] = useState('')
+  const navigate = useNavigate()
+
+  const onSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+  
+  const fetchSearch = (searchTerm) => {
+    navigate('/shopping')
+    Axios.get('http://localhost:3001/api/search', { params:{ searchTerm } })
+    .then( data => {
+      console.log(data.data)
+      props.setProducts(data.data)
+    })
+  }
+
   return (
     <>
       <div className="nav">
@@ -14,8 +32,10 @@ const NavBar = (props) => {
             type="text"
             className="search-box"
             placeholder="search"
-          ></input>
-          <button className="search-btn">search</button>
+            onChange={onSearchChange}
+            value={searchTerm}
+          />
+          <button onClick={() => fetchSearch(searchTerm)} className="search-btn">search</button>
 
           <img className="icons" src={acct} alt=""></img>
 
